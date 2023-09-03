@@ -20,8 +20,19 @@ function verify(req, res, next) {
         try {
             const bearerToken = req.headers.authorization;
             const extractedToken = bearerToken === null || bearerToken === void 0 ? void 0 : bearerToken.split(" ")[1];
-            const decodedToken = jsonwebtoken_1.default.verify(extractedToken, "ANEESH");
-            next();
+            jsonwebtoken_1.default.verify(extractedToken, "ANEESH", (err, decoded) => {
+                if (err) {
+                    return res.sendStatus(403);
+                }
+                if (!decoded) {
+                    return res.sendStatus(403);
+                }
+                if (typeof decoded === "string") {
+                    return res.sendStatus(403);
+                }
+                req.headers["userId"] = decoded.id;
+                next();
+            });
         }
         catch (err) {
             console.log(err);

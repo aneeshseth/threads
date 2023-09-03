@@ -7,8 +7,19 @@ export async function verify(req: Request, res: Response, next: NextFunction) {
     try {
         const bearerToken = req.headers.authorization;
         const extractedToken = bearerToken?.split(" ")[1];
-        const decodedToken = jwt.verify(extractedToken!, "ANEESH")
-        next()
+        jwt.verify(extractedToken!, "ANEESH", (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403)
+            }
+            if (!decoded) {
+                return res.sendStatus(403)
+            }
+            if (typeof decoded === "string") {
+                return res.sendStatus(403)
+            }
+            req.headers["userId"] = decoded.id;
+            next()
+        })
     } catch (err) {
         console.log(err)
     } 

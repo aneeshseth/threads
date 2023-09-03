@@ -1,15 +1,18 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-//import {useRecoilState} from 'recoil'
-//import {userState} from 'store'
+import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil'
+import {userState, usersState, threadsState, allThreadsState} from 'store'
 
 
 
 function page() {
   const router = useRouter()
- //const [text, setText] = useRecoilState(userState)
+  const setUserState = useSetRecoilState(userState)
+  const setUsersState = useSetRecoilState(usersState)
+  const setThreadsState = useSetRecoilState(threadsState)
+  const setAllThreadsState = useSetRecoilState(allThreadsState)
   async function getUserDecodedToken() {
     const res = await axios.get("http://localhost:3010/decodedToken", {
         headers: {
@@ -17,7 +20,6 @@ function page() {
         }
     })
     const data = await res.data;
-    console.log(data)
     return data;
   }
   async function getUserFromDecodedToken(token) {
@@ -28,28 +30,54 @@ function page() {
     const data = await res.data;
     return data;
   }
+  async function getRecommendedUsers() {
+    const res = await axios.get("http://localhost:3010/all_users", {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+     }
+    })
+    const data = await res.data;
+    return data;
+  }
+  async function getThreadsOfFollowing() {
+    const res = await axios.get("http://localhost:3010/get_following_threads", {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+     }
+    })
+    const data = await res.data;
+    return data;
+  }
+  async function getAllThreads() {
+    const res = await axios.get("http://localhost:3010/all_threads", {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+     }
+    })
+    const data = await res.data;
+    return data;
+  }
   async function callStack() {
     const userDecodedToken = await getUserDecodedToken();
     const user = await getUserFromDecodedToken(userDecodedToken?.userDecodedToken)
-    console.log(user.user)
+    setUserState(user.user)
+    const recommendedUsers = await getRecommendedUsers();
+    setUsersState(recommendedUsers.users)
+    const threadsOfFollowing = await getThreadsOfFollowing()
+    setThreadsState(threadsOfFollowing.threads)
+    const allThreads = await getAllThreads();
+    setAllThreadsState(allThreads.threads);
   }
   useEffect(() => {
-    !localStorage.getItem("token") ? router.push("/") : ""
+    !localStorage.getItem("token") ? router.push("/") : callStack()
   }, [])
-  useEffect(() => {
-   callStack()
-  }, [])
-  return (
-    <>
-    <div>
-        landing page
-        
-    </div>
-    <button onClick={() => {
-        //console.log(text)
-     }}>dh</button>
-     </>
-  )
+    return (
+      <>
+      <div>
+          landing page 
+      </div>
+       </>
+    )
 }
 
 export default page

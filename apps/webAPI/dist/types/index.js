@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tokenType = exports.userType = exports.loginInput = exports.signupInput = void 0;
+exports.followThisUser = exports.actualThreadType = exports.userCommentingType = exports.userLikingThreadType = exports.threadType = exports.tokenType = exports.userType = exports.loginInput = exports.signupInput = void 0;
 const zod_1 = require("zod");
 exports.signupInput = zod_1.z.object({
     username: zod_1.z.string(),
@@ -24,4 +24,21 @@ exports.userType = zod_1.z.object({
 exports.tokenType = zod_1.z.object({
     username: zod_1.z.string(),
     id: zod_1.z.string()
+});
+exports.threadType = zod_1.z.object({
+    thread: zod_1.z.string().max(140)
+});
+exports.userLikingThreadType = zod_1.z.object({
+    threadId: zod_1.z.string()
+});
+exports.userCommentingType = zod_1.z.object({
+    threadId: zod_1.z.string(),
+    comment: zod_1.z.string()
+});
+exports.actualThreadType = zod_1.z.object({
+    thread: zod_1.z.string(),
+    userId: zod_1.z.string()
+});
+exports.followThisUser = zod_1.z.object({
+    userToFollow: zod_1.z.string()
 });

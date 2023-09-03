@@ -2,7 +2,7 @@ import User from "../Models/userModel";
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 import {Request, Response} from 'express'
-import {signupInput, loginInput} from '../types/index'
+import {signupInput, loginInput, followThisUser} from '../types/index'
 
 
 
@@ -42,3 +42,42 @@ export async function logIn(req: Request, res: Response) {
         msg: 'user logged in'
     })
 }
+
+
+
+export async function followUser(req: Request, res: Response) {
+    try {
+        const userId = req.headers["userId"]
+        const body = req.body;
+        const inputValidation = followThisUser.safeParse(body);
+        if (!inputValidation.success) return res.status(400).json({msg: 'invalid input'})
+        const {userToFollow} = body;
+        const userFollowed = await User.findById(userToFollow);
+        const userFollowing = await User.findById(userId);
+        userFollowed.followers.push(userId)
+        userFollowing.following.push(userToFollow)
+        await userFollowing.save()
+        await userFollowed.save()
+        return res.status(200).json({msg: 'User followed Sucessfully', userFollowing})
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export async function getAllUsers(req: Request, res: Response) {
+    try {
+        console.log("hey!")
+        const userId = req.headers["userId"]
+        console.log(userId)
+        const allUsers = await User.find({})
+        console.log(allUsers)
+        const filteredUsers = allUsers.filter((user) => !user.followers.includes(userId))
+        console.log(filteredUsers)
+        return res.status(200).json({users: filteredUsers})
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+

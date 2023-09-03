@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logIn = exports.signUp = void 0;
+exports.getAllUsers = exports.followUser = exports.logIn = exports.signUp = void 0;
 const userModel_1 = __importDefault(require("../Models/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -63,3 +63,44 @@ function logIn(req, res) {
     });
 }
 exports.logIn = logIn;
+function followUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userId = req.headers["userId"];
+            const body = req.body;
+            const inputValidation = index_1.followThisUser.safeParse(body);
+            if (!inputValidation.success)
+                return res.status(400).json({ msg: 'invalid input' });
+            const { userToFollow } = body;
+            const userFollowed = yield userModel_1.default.findById(userToFollow);
+            const userFollowing = yield userModel_1.default.findById(userId);
+            userFollowed.followers.push(userId);
+            userFollowing.following.push(userToFollow);
+            yield userFollowing.save();
+            yield userFollowed.save();
+            return res.status(200).json({ msg: 'User followed Sucessfully', userFollowing });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+}
+exports.followUser = followUser;
+function getAllUsers(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            console.log("hey!");
+            const userId = req.headers["userId"];
+            console.log(userId);
+            const allUsers = yield userModel_1.default.find({});
+            console.log(allUsers);
+            const filteredUsers = allUsers.filter((user) => !user.followers.includes(userId));
+            console.log(filteredUsers);
+            return res.status(200).json({ users: filteredUsers });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+}
+exports.getAllUsers = getAllUsers;

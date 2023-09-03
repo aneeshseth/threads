@@ -2,6 +2,12 @@ import {atom} from "recoil";
 
 export const userState = atom({
   key: 'userState',
-  default: 'ansh',
+  default: {
+    username: null,
+    password: null,
+    profile_pic: null,
+    email: null,
+    role: null
+  },
 });
 

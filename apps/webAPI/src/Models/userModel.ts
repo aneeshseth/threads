@@ -16,7 +16,19 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "user"
-  }
+  },
+  threads: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "threads"
+  }],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  }],
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  }]
 });
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);

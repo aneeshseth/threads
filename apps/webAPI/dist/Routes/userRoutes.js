@@ -12,4 +12,6 @@ router.post("/login", userController_1.logIn);
 router.get("/verify", verify_1.verify);
 router.get("/decodedToken", verify_1.getUserDecodedToken);
 router.post("/getUser", verify_1.getUserFromDecodedToken);
+router.post("/follow_user", verify_1.verify, userController_1.followUser);
+router.get("/all_users", verify_1.verify, userController_1.getAllUsers);
 exports.default = router;

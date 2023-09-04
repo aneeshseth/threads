@@ -3,10 +3,10 @@ import {createThreads, createComment, likeThread, getAllThreads, getUserFollowin
 import { verify } from '../Middleware/verify';
 const router = express.Router()
 
-router.post("/create_threads", verify, createThreads)
-router.post("/like_thread", verify,likeThread)
+router.post("/create_threads",  createThreads)
+router.post("/like_thread", likeThread)
 router.post("/unlike_thread", verify, unlikeThread)
-router.post("/create_comment", verify, createComment)
+router.post("/create_comment",  createComment)
 router.get("/get_following_threads", verify, getUserFollowingThreads)
 router.get("/all_threads", verify, getAllThreads)
 router.post("/get_user_threads", verify, getUserThreads)

@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
   followers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
+  }],
+  chats: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "chats"
   }]
 });
 

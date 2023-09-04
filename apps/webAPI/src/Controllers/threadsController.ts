@@ -7,11 +7,10 @@ import {threadType, userCommentingType, userLikingThreadType, actualThreadParams
 
 export async function createThreads(req: Request, res: Response) {
     try {
-        const userId = req.headers["userId"]
         const body = req.body;
         const inputValidation = threadType.safeParse(body);
         if (!inputValidation.success) return res.status(400).json({msg: 'invalid input'})
-        const {thread} = body;
+        const {thread, userId} = body;
         const addThread = new Threads({
             thread: thread,
             userId: userId,
@@ -31,11 +30,11 @@ export async function createThreads(req: Request, res: Response) {
 
 export async function likeThread(req: Request, res: Response) {
     try {
-        const userId = req.headers["userId"]
         const body = req.body;
         const inputValidation = userLikingThreadType.safeParse(body)
+        console.log(inputValidation)
         if (!inputValidation.success) return res.status(400).json({msg: 'invalid input'})
-        const {threadId} = req.body;
+        const {threadId, userId} = req.body;
         const findThread = await Threads.findById(threadId)
         findThread.likes.push(userId)
         await findThread.save()
@@ -63,11 +62,10 @@ export async function unlikeThread(req: Request, res: Response) {
 
 export async function createComment(req: Request, res: Response) {
     try {
-        const userId = req.headers["userId"]
         const body = req.body;
         const inputValidation = userCommentingType.safeParse(body)
         if (!inputValidation.success) return res.status(400).json({msg: 'invalid input'})
-        const {comment,threadId} = req.body;
+        const {comment,threadId, userId} = req.body;
         const addComment = new Comments({
             threadId: threadId,
             comment: comment,
@@ -103,7 +101,7 @@ export async function getUserFollowingThreads(req: Request, res: Response) {
 
 export async function getAllThreads(req: Request, res: Response) {
     try {
-        const allThreads = await Threads.find({})
+        const allThreads = await Threads.find({}).populate('userId')
         return res.status(200).json({threads: allThreads})
     } catch (err) {
         console.log(err);

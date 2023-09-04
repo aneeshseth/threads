@@ -36,18 +36,21 @@ export const tokenType = z.object({
 export type tokenParams = z.infer<typeof tokenType>;
 
 export const threadType = z.object({
-  thread: z.string().max(140)
+  thread: z.string().max(140),
+  userId: z.string()
 })
 
 
 export const userLikingThreadType = z.object({
-  threadId: z.string()
+  threadId: z.string(),
+  userId: z.string()
 })
 
 
 export const userCommentingType = z.object({
   threadId: z.string(),
-  comment: z.string()
+  comment: z.string(),
+  userId: z.string()
 })
 
 export const actualThreadType = z.object({
@@ -59,4 +62,20 @@ export type actualThreadParams = z.infer<typeof actualThreadType>;
 
 export const followThisUser = z.object({
   userToFollow: z.string()
+})
+
+export const creatingChat = z.object({
+  user1: z.string(),
+  user2: z.string()
+})
+
+
+export const gettingMessages = z.object({
+  chatId: z.string()
+})
+
+export const creatingMessages = z.object({
+  userId: z.string(),
+  content: z.string(),
+  chatId: z.string(),
 })

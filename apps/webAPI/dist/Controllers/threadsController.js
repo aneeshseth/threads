@@ -20,12 +20,11 @@ const index_1 = require("../types/index");
 function createThreads(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const userId = req.headers["userId"];
             const body = req.body;
             const inputValidation = index_1.threadType.safeParse(body);
             if (!inputValidation.success)
                 return res.status(400).json({ msg: 'invalid input' });
-            const { thread } = body;
+            const { thread, userId } = body;
             const addThread = new threadModel_1.default({
                 thread: thread,
                 userId: userId,
@@ -47,12 +46,12 @@ exports.createThreads = createThreads;
 function likeThread(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const userId = req.headers["userId"];
             const body = req.body;
             const inputValidation = index_1.userLikingThreadType.safeParse(body);
+            console.log(inputValidation);
             if (!inputValidation.success)
                 return res.status(400).json({ msg: 'invalid input' });
-            const { threadId } = req.body;
+            const { threadId, userId } = req.body;
             const findThread = yield threadModel_1.default.findById(threadId);
             findThread.likes.push(userId);
             yield findThread.save();
@@ -87,12 +86,11 @@ exports.unlikeThread = unlikeThread;
 function createComment(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const userId = req.headers["userId"];
             const body = req.body;
             const inputValidation = index_1.userCommentingType.safeParse(body);
             if (!inputValidation.success)
                 return res.status(400).json({ msg: 'invalid input' });
-            const { comment, threadId } = req.body;
+            const { comment, threadId, userId } = req.body;
             const addComment = new commentModel_1.default({
                 threadId: threadId,
                 comment: comment,
@@ -132,7 +130,7 @@ exports.getUserFollowingThreads = getUserFollowingThreads;
 function getAllThreads(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const allThreads = yield threadModel_1.default.find({});
+            const allThreads = yield threadModel_1.default.find({}).populate('userId');
             return res.status(200).json({ threads: allThreads });
         }
         catch (err) {

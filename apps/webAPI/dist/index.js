@@ -17,13 +17,66 @@ const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-const port = 3010;
+const ws_1 = require("ws");
+const port = 8021;
+const wss = new ws_1.WebSocketServer({ port });
+const roomConnections = new Map();
+wss.on('connection', (ws) => {
+    console.log(`Connected to ${ws}`);
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        console.log(data);
+        try {
+            if (data.action) {
+                if (data.action === "joinRoom") {
+                    const { room } = data;
+                    if (!roomConnections.has(room)) {
+                        roomConnections.set(room, new Set());
+                    }
+                    roomConnections.get(room).add(ws);
+                    console.log(`WebSocket joined room: ${room}`);
+                }
+                else if (data.action === "sendMessage") {
+                    console.log('HELLOS FROM SEND');
+                    const { room, text } = data;
+                    if (roomConnections.has(room)) {
+                        const roomClients = roomConnections.get(room);
+                        console.log(roomClients);
+                        for (const client of roomClients) {
+                            console.log('number');
+                            client.send(JSON.stringify({ user: "aneesh", msg: text }));
+                        }
+                        console.log(`Message sent to room ${room}: ${JSON.stringify({ user: "aneesh", msg: text })}`);
+                    }
+                    else {
+                        console.log(`Room ${room} not found.`);
+                    }
+                }
+            }
+        }
+        catch (error) {
+            console.error('Error handling message:', error);
+        }
+    });
+    ws.on('close', () => {
+        roomConnections.forEach((connections, room) => {
+            if (connections.has(ws)) {
+                connections.delete(ws);
+            }
+            if (connections.size === 0) {
+                roomConnections.delete(room);
+            }
+        });
+    });
+});
 const db_1 = require("./lib/db");
 (0, db_1.ensureDbConnected)();
 const userRoutes_1 = __importDefault(require("./Routes/userRoutes"));
 const threadRoutes_1 = __importDefault(require("./Routes/threadRoutes"));
+const chatRoutes_1 = __importDefault(require("./Routes/chatRoutes"));
 app.use("/", userRoutes_1.default);
 app.use("/", threadRoutes_1.default);
+app.use("/", chatRoutes_1.default);
 const multer_1 = __importDefault(require("multer"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 const s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
@@ -44,7 +97,6 @@ app.post("/api/posts", upload.single('image'), (req, res) => __awaiter(void 0, v
         Body: (_b = req.file) === null || _b === void 0 ? void 0 : _b.buffer,
         ContentType: (_c = req.file) === null || _c === void 0 ? void 0 : _c.mimetype
     };
-    console.log("hello");
     const command = new client_s3_1.PutObjectCommand(params);
     yield s3.send(command);
     console.log(command);
@@ -58,6 +110,6 @@ app.post("/api/posts", upload.single('image'), (req, res) => __awaiter(void 0, v
     console.log(url);
     return res.status(200).json({ image: url });
 }));
-app.listen(port, () => {
-    console.log(`app listening on port ${port}`);
+app.listen(3010, () => {
+    console.log(`app listening on port 3010`);
 });

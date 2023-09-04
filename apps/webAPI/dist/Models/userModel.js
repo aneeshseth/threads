@@ -32,6 +32,10 @@ const userSchema = new mongoose_1.default.Schema({
     followers: [{
             type: mongoose_1.default.Schema.Types.ObjectId,
             ref: "users"
+        }],
+    chats: [{
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "chats"
         }]
 });
 const User = mongoose_1.default.models.users || mongoose_1.default.model("users", userSchema);

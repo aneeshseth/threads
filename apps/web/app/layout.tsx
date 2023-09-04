@@ -8,14 +8,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <RecoilRoot>
     <html lang="en" suppressHydrationWarning>
       <body>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <RecoilRoot>
             {children}
-        </RecoilRoot>
        </ThemeProvider>
       </body>
     </html>
+    </RecoilRoot>
   );
 }

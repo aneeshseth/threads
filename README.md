@@ -1,5 +1,19 @@
 # Turborepo starter with shadcn/ui#
 
+
+- This is an Instagram Threads like application project created to understanding working with an end to end mono-repo, using ShadCN/ui for components, all of them imported from within the shared packages. 
+- Used Recoil for State Management across the application which was imported from the packages folder. 
+- Used S3 as an Object Storage Platform to store User Profile Pictures
+- JWT for authentication
+- ExpressJS for the server
+- NextJS 13 for the frontend
+- Learnt to use Native Websockets on the frontend to interact with the backend for real-time messaging between any 2 users
+- Used the 'ws' library to handle socket connections on the backend coming from the frontend
+- In pursuit of understanding the working of performing operations on data in a monorepo, users can like, comment, and create threads.
+
+This project is written all in Typescript.
+
+
 ![Static Badge](https://img.shields.io/badge/shadcn%2Fui-latest-blue?link=https%3A%2F%2Fgithub.com%2Fshadcn%2Fui)
 
 This is Turborepo starter with shadcn/ui pre-configured.

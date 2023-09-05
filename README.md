@@ -1,6 +1,6 @@
 # Instagram Threads like platform on a mono-repo
 
-<img width="380" alt="image" src="https://github.com/aneeshseth/threads/assets/122401851/78980aa8-93a5-400a-9475-b91414f2aae2">
+<img width="180" height="180" alt="image" src="https://github.com/aneeshseth/threads/assets/122401851/78980aa8-93a5-400a-9475-b91414f2aae2">
 
 ![image](https://github.com/aneeshseth/threads/assets/122401851/cbb5f4b2-72a6-4fad-abed-e473e08cfb77)
 

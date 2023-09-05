@@ -3,7 +3,7 @@
 
 <p align="center">
   <img src="https://github.com/aneeshseth/threads/assets/122401851/cbb5f4b2-72a6-4fad-abed-e473e08cfb77" alt="Image 1" width="200"/>
-  <img src="https://github.com/aneeshseth/threads/assets/122401851/a301b43f-b5e6-4141-ac7b-0c3e32f907a9" alt="Image 2" width="600" height="300"/>
+  <img src="https://github.com/aneeshseth/threads/assets/122401851/a301b43f-b5e6-4141-ac7b-0c3e32f907a9" alt="Image 2" width="500" height="300"/>
   <img src="https://github.com/aneeshseth/threads/assets/122401851/ff8e637d-9339-41a9-a05c-01a1ce89f426" alt="Image 3" width="200"/>
   <img src="https://github.com/aneeshseth/threads/assets/122401851/e672566e-54d8-4bb6-a261-194174ee6886" alt="Image 4" width="200"/>
   <img src="https://github.com/aneeshseth/threads/assets/122401851/dfa89a63-e2bc-4120-8a4f-e351f69e4f35" alt="Image 5" width="200"/>

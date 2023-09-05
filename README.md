@@ -1,4 +1,17 @@
-# Turborepo starter with shadcn/ui#
+# Instagram Threads like platform on a mono-repo
+
+<img width="380" alt="image" src="https://github.com/aneeshseth/threads/assets/122401851/78980aa8-93a5-400a-9475-b91414f2aae2">
+
+![image](https://github.com/aneeshseth/threads/assets/122401851/cbb5f4b2-72a6-4fad-abed-e473e08cfb77)
+
+![image](https://github.com/aneeshseth/threads/assets/122401851/a301b43f-b5e6-4141-ac7b-0c3e32f907a9)
+
+![image](https://github.com/aneeshseth/threads/assets/122401851/ff8e637d-9339-41a9-a05c-01a1ce89f426)
+
+![image](https://github.com/aneeshseth/threads/assets/122401851/e672566e-54d8-4bb6-a261-194174ee6886)
+
+![image](https://github.com/aneeshseth/threads/assets/122401851/dfa89a63-e2bc-4120-8a4f-e351f69e4f35)
+
 
 
 - This is an Instagram Threads like application project created to understanding working with an end to end mono-repo, using ShadCN/ui for components, all of them imported from within the shared packages. 
